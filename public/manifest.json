@@ -42,6 +42,7 @@
   "lang": "en",
   "dir": "ltr",
   "scope": "/promo_forge/",
+  "id": "/promo_forge/",
   "prefer_related_applications": false,
   "display_override": ["window-controls-overlay"],
   "edge_side_panel": {

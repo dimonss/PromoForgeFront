@@ -11,10 +11,24 @@ const PWAInstall = () => {
       e.preventDefault();
       // Stash the event so it can be triggered later
       setDeferredPrompt(e);
-      setShowInstallPrompt(true);
+      
+      // Only show install prompt if not already installed and not dismissed
+      if (!localStorage.getItem('pwa-installed') && !sessionStorage.getItem('pwa-install-dismissed')) {
+        setShowInstallPrompt(true);
+      }
+    };
+
+    // Check if PWA is already installed
+    const checkIfInstalled = () => {
+      if (window.matchMedia('(display-mode: standalone)').matches || 
+          window.navigator.standalone === true) {
+        localStorage.setItem('pwa-installed', 'true');
+        setShowInstallPrompt(false);
+      }
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    checkIfInstalled();
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -24,16 +38,22 @@ const PWAInstall = () => {
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
 
-    // Show the install prompt
-    deferredPrompt.prompt();
+    try {
+      // Show the install prompt
+      deferredPrompt.prompt();
 
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice;
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice;
 
-    if (outcome === 'accepted') {
-      console.log('User accepted the install prompt');
-    } else {
-      console.log('User dismissed the install prompt');
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+        // Track successful installation
+        localStorage.setItem('pwa-installed', 'true');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+    } catch (error) {
+      console.error('Error during PWA installation:', error);
     }
 
     // Clear the deferredPrompt
