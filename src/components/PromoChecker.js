@@ -49,10 +49,26 @@ const PromoChecker = () => {
     }
   };
 
-  const handleScanResult = (scannedCode) => {
+  const handleScanResult = async (scannedCode) => {
     setPromoCode(scannedCode);
     setShowScanner(false);
     toast.success('Promo code scanned successfully');
+    
+    // Automatically check the scanned promo code
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const response = await promoAPI.checkStatus(scannedCode.trim());
+      setResult(response.data);
+      toast.success('Promo code status retrieved successfully');
+    } catch (error) {
+      console.error('Check promo code error:', error);
+      toast.error(error.response?.data?.error || 'Failed to check promo code');
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const clearResult = () => {

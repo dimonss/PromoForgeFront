@@ -8,6 +8,7 @@
     "axios": "^1.6.2",
     "chalysh-ui": "^1.0.0",
     "date-fns": "^2.30.0",
+    "jsqr": "^1.4.0",
     "lucide-react": "^0.294.0",
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
