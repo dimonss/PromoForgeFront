@@ -83,7 +83,7 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <Router basename="/promo_forge">
         <div className="App">
           <AppRoutes />
           <PWAInstall />
