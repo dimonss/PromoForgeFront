@@ -98,6 +98,10 @@ function App() {
             draggable
             pauseOnHover
             theme="light"
+            style={{
+              top: 'max(2rem, env(safe-area-inset-top))',
+              right: '1rem'
+            }}
           />
         </div>
       </Router>
