@@ -57,6 +57,9 @@ export const promoAPI = {
   activate: (data) => 
     api.post('/promo/activate', data),
   
+  deactivate: (promoCode, reason) => 
+    api.post('/promo/deactivate', { promoCode, reason }),
+  
   getActivations: (page = 1, limit = 50) => 
     api.get(`/promo/activations?page=${page}&limit=${limit}`),
   

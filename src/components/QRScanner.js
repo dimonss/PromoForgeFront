@@ -75,7 +75,7 @@ const QRScanner = ({ onScan, onClose }) => {
     
     // Force stop all media tracks as last resort
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
           stream.getTracks().forEach(track => track.stop());
           console.log('Emergency stop: All media tracks stopped');

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { promoAPI } from '../services/api';
 import { toast } from 'react-toastify';
-import { QrCode, Search, CheckCircle, XCircle, Camera } from 'lucide-react';
+import { QrCode, Search, CheckCircle, XCircle, Camera, Ban } from 'lucide-react';
 import QRScanner from './QRScanner';
 import LogoutModal from './LogoutModal';
+import DeactivateModal from './DeactivateModal';
 
 const PromoChecker = () => {
   const [promoCode, setPromoCode] = useState('');
@@ -12,6 +13,8 @@ const PromoChecker = () => {
   const [result, setResult] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDeactivateModal, setShowDeactivateModal] = useState(false);
+  const [deactivateLoading, setDeactivateLoading] = useState(false);
   const { user, logout } = useAuth();
 
   const handleLogoutClick = () => {
@@ -52,7 +55,6 @@ const PromoChecker = () => {
   const handleScanResult = async (scannedCode) => {
     setPromoCode(scannedCode);
     setShowScanner(false);
-    toast.success('Promo code scanned successfully');
     
     // Automatically check the scanned promo code
     setLoading(true);
@@ -74,6 +76,27 @@ const PromoChecker = () => {
   const clearResult = () => {
     setResult(null);
     setPromoCode('');
+  };
+
+  const handleDeactivateClick = () => {
+    setShowDeactivateModal(true);
+  };
+
+  const handleDeactivateConfirm = async () => {
+    setDeactivateLoading(true);
+    
+    try {
+      await promoAPI.deactivate(promoCode.trim(), 'Deactivated by user');
+      toast.success('Промо-код успешно деактивирован');
+      setResult(null);
+      setPromoCode('');
+      setShowDeactivateModal(false);
+    } catch (error) {
+      console.error('Deactivate promo code error:', error);
+      toast.error(error.response?.data?.error || 'Ошибка при деактивации промо-кода');
+    } finally {
+      setDeactivateLoading(false);
+    }
   };
 
   return (
@@ -250,6 +273,19 @@ const PromoChecker = () => {
                   <p className="text-gray-900">{result.status.description}</p>
                 </div>
               )}
+
+              {/* Deactivate Button - only show for valid, unused codes */}
+              {result.status?.isValid && !result.status?.isUsed && (
+                <div className="pt-4 border-t border-gray-200">
+                  <button
+                    onClick={handleDeactivateClick}
+                    className="w-full px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Ban className="h-4 w-4" />
+                    <span>Деактивировать промо-код</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -261,6 +297,15 @@ const PromoChecker = () => {
         isOpen={showLogoutModal}
         onClose={handleLogoutCancel}
         onConfirm={handleLogoutConfirm}
+      />
+
+      {/* Deactivate Modal */}
+      <DeactivateModal
+        isOpen={showDeactivateModal}
+        onClose={() => setShowDeactivateModal(false)}
+        onConfirm={handleDeactivateConfirm}
+        promoCode={promoCode}
+        loading={deactivateLoading}
       />
     </div>
   );
