@@ -20,7 +20,6 @@ const PromoChecker = () => {
 
   const handleLogoutConfirm = () => {
     logout();
-    window.location.href = '/login';
     setShowLogoutModal(false);
   };
 
@@ -214,7 +213,7 @@ const PromoChecker = () => {
                 </div>
                 
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Expiry</p>
+                  <p className="text-sm text-gray-500 mb-1">Истечение срока действия</p>
                   <p className="font-medium text-gray-900">
                     {result.status?.expiryDate ? new Date(result.status.expiryDate).toLocaleDateString() : 'No expiry'}
                   </p>

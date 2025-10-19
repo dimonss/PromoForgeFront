@@ -65,23 +65,23 @@ const PWAInstall = () => {
           </div>
           <div className="flex-1">
             <h3 className="text-sm font-semibold text-gray-900 mb-1">
-              Install PromoForge
+              Установить PromoForge
             </h3>
             <p className="text-xs text-gray-600 mb-3">
-              Install this app on your device for quick access
+              Установите это приложение на ваше устройство для быстрого доступа
             </p>
             <div className="flex space-x-2">
               <button
                 onClick={handleInstallClick}
                 className="px-3 py-1.5 bg-black text-white text-xs font-medium rounded-md hover:bg-gray-800 transition-colors"
               >
-                Install
+                Установить
               </button>
               <button
                 onClick={handleDismiss}
                 className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-md hover:bg-gray-200 transition-colors"
               >
-                Not now
+                Не сейчас
               </button>
             </div>
           </div>
