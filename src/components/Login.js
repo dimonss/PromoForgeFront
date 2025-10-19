@@ -57,8 +57,8 @@ const Login = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-black rounded-2xl mb-6">
             <QrCode className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900 mb-2">Welcome back</h1>
-          <p className="text-gray-500 text-sm">Sign in to your account</p>
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">Добро пожаловать</h1>
+          <p className="text-gray-500 text-sm">Войдите в свой аккаунт</p>
         </div>
 
         {/* Form */}
@@ -66,7 +66,7 @@ const Login = () => {
           <div className="space-y-4">
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                Username
+                Имя пользователя
               </label>
               <input
                 id="username"
@@ -76,13 +76,13 @@ const Login = () => {
                 value={formData.username}
                 onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors text-gray-900"
-                placeholder="Enter username"
+                placeholder="Введите имя пользователя"
               />
             </div>
             
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                Пароль
               </label>
               <input
                 id="password"
@@ -92,7 +92,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors text-gray-900"
-                placeholder="Enter password"
+                placeholder="Введите пароль"
               />
             </div>
           </div>
@@ -102,7 +102,7 @@ const Login = () => {
             disabled={loading}
             className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Вход...' : 'Войти'}
           </button>
         </form>
       </div>

@@ -80,7 +80,7 @@ const ActivationHistory = () => {
       <div className="flex-center" style={{ height: '400px' }}>
         <div className="loading">
           <div className="spinner"></div>
-          Loading activation history...
+          Загрузка истории активаций...
         </div>
       </div>
     );
@@ -90,7 +90,7 @@ const ActivationHistory = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Activation History</h1>
+        <h1 className="text-2xl font-bold text-gray-900">История активаций</h1>
         <p className="mt-1 text-sm text-gray-500">
           View all promo code activations and their details
         </p>
@@ -109,7 +109,7 @@ const ActivationHistory = () => {
                 value={searchTerm}
                 onChange={handleSearch}
                 className="form-input pl-10"
-                placeholder="Search by promo code, cashier, or customer info..."
+                placeholder="Поиск по промо-коду, кассиру или информации о клиенте..."
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ const ActivationHistory = () => {
           <div className="text-center py-12">
             <History className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">
-              {searchTerm ? 'No matching activations' : 'No activations found'}
+              {searchTerm ? 'Нет подходящих активаций' : 'Активации не найдены'}
             </h3>
             <p className="mt-1 text-sm text-gray-500">
               {searchTerm 
@@ -231,14 +231,14 @@ const ActivationHistory = () => {
                 disabled={pagination.page === 1}
                 className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Previous
+                Предыдущая
               </button>
               <button
                 onClick={() => handlePageChange(pagination.page + 1)}
                 disabled={pagination.page === pagination.totalPages}
                 className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Next
+                Следующая
               </button>
             </div>
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
@@ -252,7 +252,7 @@ const ActivationHistory = () => {
                   <span className="font-medium">
                     {Math.min(pagination.page * pagination.limit, pagination.total)}
                   </span>{' '}
-                  of{' '}
+                  из{' '}
                   <span className="font-medium">{pagination.total}</span>{' '}
                   results
                 </p>

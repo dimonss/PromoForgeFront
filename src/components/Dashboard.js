@@ -85,7 +85,7 @@ const Dashboard = () => {
       <div className="flex-center" style={{ height: '400px' }}>
         <div className="loading">
           <div className="spinner"></div>
-          Loading dashboard...
+          Загрузка панели управления...
         </div>
       </div>
     );
@@ -95,7 +95,7 @@ const Dashboard = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Панель управления</h1>
         <p className="mt-1 text-sm text-gray-500">
           Welcome to PromoForge - Your promo code management system
         </p>
@@ -112,7 +112,7 @@ const Dashboard = () => {
               <div className="ml-5 w-0 flex-1">
                 <dl>
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Activations
+                    Всего активаций
                   </dt>
                   <dd className="text-lg font-medium text-gray-900">
                     {stats.totalActivations}
@@ -152,7 +152,7 @@ const Dashboard = () => {
               <div className="ml-5 w-0 flex-1">
                 <dl>
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Recent Activity
+                    Недавняя активность
                   </dt>
                   <dd className="text-lg font-medium text-gray-900">
                     {stats.recentActivations.length} recent
@@ -198,7 +198,7 @@ const Dashboard = () => {
       {/* Recent Activations */}
       <div className="bg-white shadow rounded-lg">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Recent Activations</h2>
+          <h2 className="text-lg font-medium text-gray-900">Недавние активации</h2>
         </div>
         <div className="divide-y divide-gray-200">
           {stats.recentActivations.length > 0 ? (

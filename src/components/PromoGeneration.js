@@ -80,9 +80,9 @@ const PromoGeneration = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Generate Promo Code</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Создать промо-код</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Create a new promo code using the external API
+          Создайте новый промо-код с помощью внешнего API
         </p>
       </div>
 
@@ -95,7 +95,7 @@ const PromoGeneration = () => {
             {/* Value */}
             <div>
               <label htmlFor="value" className="block text-sm font-medium text-gray-700 mb-2">
-                Value *
+                Значение *
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -123,7 +123,7 @@ const PromoGeneration = () => {
             {/* Type */}
             <div>
               <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
-                Type *
+                Тип *
               </label>
               <select
                 id="type"
@@ -141,7 +141,7 @@ const PromoGeneration = () => {
             {/* Expiry Date */}
             <div>
               <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-2">
-                Expiry Date (Optional)
+                Дата истечения (необязательно)
               </label>
               <input
                 type="date"
@@ -157,7 +157,7 @@ const PromoGeneration = () => {
             {/* Description */}
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                Description (Optional)
+                Описание (необязательно)
               </label>
               <textarea
                 id="description"
@@ -184,7 +184,7 @@ const PromoGeneration = () => {
               ) : (
                 <>
                   <Plus size={20} />
-                  Generate Promo Code
+                  Создать промо-код
                 </>
               )}
             </button>
@@ -193,7 +193,7 @@ const PromoGeneration = () => {
 
         {/* Generated Code Display */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Generated Code</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Созданный код</h2>
           
           {generatedCode ? (
             <div className="space-y-4">
@@ -229,11 +229,11 @@ const PromoGeneration = () => {
 
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Type:</span>
+                  <span className="text-gray-500">Тип:</span>
                   <span className="font-medium capitalize">{generatedCode.type}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Value:</span>
+                  <span className="text-gray-500">Значение:</span>
                   <span className="font-medium">
                     {generatedCode.value}
                     {generatedCode.type === 'percentage' ? '%' : '$'}
@@ -249,7 +249,7 @@ const PromoGeneration = () => {
                 )}
                 {generatedCode.description && (
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Description:</span>
+                    <span className="text-gray-500">Описание:</span>
                     <span className="font-medium">{generatedCode.description}</span>
                   </div>
                 )}
@@ -261,10 +261,10 @@ const PromoGeneration = () => {
                 <Plus size={48} className="mx-auto text-gray-400" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No Code Generated
+                Код не создан
               </h3>
               <p className="text-sm text-gray-500">
-                Fill out the form and click "Generate Promo Code" to create a new code
+                Заполните форму и нажмите "Создать промо-код" для создания нового кода
               </p>
             </div>
           )}
@@ -278,8 +278,8 @@ const PromoGeneration = () => {
           <li>• Promo codes are generated via external API</li>
           <li>• Percentage discounts are applied to the total amount</li>
           <li>• Fixed amount discounts are subtracted from the total</li>
-          <li>• Expiry date is optional - codes without expiry never expire</li>
-          <li>• Generated codes can be activated through the activation interface</li>
+          <li>• Дата истечения необязательна - коды без даты истечения никогда не истекают</li>
+          <li>• Созданные коды можно активировать через интерфейс активации</li>
         </ul>
       </div>
     </div>

@@ -22,12 +22,12 @@ const Layout = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Activate Promo', href: '/activate', icon: QrCode },
-    { name: 'Generate Promo', href: '/generate', icon: Plus },
-    { name: 'Check Status', href: '/status', icon: Search },
-    { name: 'History', href: '/history', icon: History },
-    { name: 'Settings', href: '/settings', icon: Settings },
+    { name: 'Панель управления', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Активировать промо', href: '/activate', icon: QrCode },
+    { name: 'Создать промо', href: '/generate', icon: Plus },
+    { name: 'Проверить статус', href: '/status', icon: Search },
+    { name: 'История', href: '/history', icon: History },
+    { name: 'Настройки', href: '/settings', icon: Settings },
   ];
 
   const handleLogoutClick = () => {
@@ -109,7 +109,7 @@ const Layout = () => {
             <button
               onClick={handleLogoutClick}
               className="ml-3 p-2 text-gray-400 hover:text-gray-600 transition-colors"
-              title="Logout"
+              title="Выйти"
             >
               <LogOut size={18} />
             </button>
@@ -133,7 +133,7 @@ const Layout = () => {
             
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-500">
-                Welcome, {user?.fullName}
+                Добро пожаловать, {user?.fullName}
               </span>
             </div>
           </div>

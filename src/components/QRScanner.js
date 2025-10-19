@@ -28,7 +28,7 @@ const QRScanner = ({ onScan, onClose }) => {
       }
     } catch (err) {
       console.error('Error accessing camera:', err);
-      setError('Unable to access camera. Please check permissions.');
+      setError('Не удается получить доступ к камере. Проверьте разрешения.');
     }
   };
 
@@ -76,7 +76,7 @@ const QRScanner = ({ onScan, onClose }) => {
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-2xl max-w-md w-full max-h-[90vh] overflow-hidden">
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Scan QR Code</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Сканировать QR-код</h3>
           <button
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
@@ -123,7 +123,7 @@ const QRScanner = ({ onScan, onClose }) => {
 
         <div className="px-4 pb-4 text-center">
           <p className="text-sm text-gray-600">
-            Position the QR code within the frame
+            Поместите QR-код в рамку
           </p>
         </div>
 
@@ -132,19 +132,19 @@ const QRScanner = ({ onScan, onClose }) => {
             onClick={onClose}
             className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
           >
-            Cancel
+            Отмена
           </button>
           <button
             onClick={() => {
               // Simulate manual input
-              const manualCode = prompt('Enter promo code manually:');
+              const manualCode = prompt('Введите промо-код вручную:');
               if (manualCode) {
                 onScan(manualCode);
               }
             }}
             className="flex-1 px-4 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
           >
-            Manual Input
+            Ввод вручную
           </button>
         </div>
       </div>

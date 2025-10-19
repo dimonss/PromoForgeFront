@@ -78,7 +78,7 @@ const PromoChecker = () => {
               <button
                 onClick={handleLogoutClick}
                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                title="Logout"
+                title="Выйти"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -93,12 +93,12 @@ const PromoChecker = () => {
 
         {/* Promo Code Input */}
         <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Check Promo Code</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Проверить промо-код</h2>
           
           <div className="space-y-4">
             <div>
               <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
-                Enter or scan promo code
+                Введите или отсканируйте промо-код
               </label>
               <div className="flex gap-2">
                 <div className="flex-1 relative">
@@ -107,7 +107,7 @@ const PromoChecker = () => {
                     id="promoCode"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    placeholder="Type promo code..."
+                    placeholder="Введите промо-код..."
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors font-mono text-gray-900"
                     onKeyPress={(e) => e.key === 'Enter' && handleCheckPromo()}
                   />
@@ -129,7 +129,7 @@ const PromoChecker = () => {
                       ? 'bg-black text-white' 
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
-                  title="QR Scanner"
+                  title="QR Сканер"
                 >
                   <Camera className="h-5 w-5" />
                 </button>
@@ -141,12 +141,12 @@ const PromoChecker = () => {
                   {loading ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      <span className="hidden sm:inline">Checking...</span>
+                      <span className="hidden sm:inline">Проверка...</span>
                     </>
                   ) : (
                     <>
                       <Search className="h-4 w-4" />
-                      <span className="hidden sm:inline">Check</span>
+                      <span className="hidden sm:inline">Проверить</span>
                     </>
                   )}
                 </button>
@@ -167,12 +167,12 @@ const PromoChecker = () => {
         {result && (
           <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Result</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Результат</h3>
               <button
                 onClick={clearResult}
                 className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
               >
-                Clear
+                Очистить
               </button>
             </div>
 
@@ -191,7 +191,7 @@ const PromoChecker = () => {
 
               {/* Code */}
               <div>
-                <p className="text-sm text-gray-500 mb-1">Code</p>
+                <p className="text-sm text-gray-500 mb-1">Код</p>
                 <p className="text-xl font-mono font-semibold text-gray-900">
                   {result.status?.code || promoCode}
                 </p>
@@ -200,14 +200,14 @@ const PromoChecker = () => {
               {/* Details */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Type</p>
+                  <p className="text-sm text-gray-500 mb-1">Тип</p>
                   <p className="font-medium text-gray-900 capitalize">
                     {result.status?.type || 'Unknown'}
                   </p>
                 </div>
                 
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Value</p>
+                  <p className="text-sm text-gray-500 mb-1">Значение</p>
                   <p className="font-medium text-gray-900">
                     {result.status?.value || 'N/A'}
                   </p>
@@ -221,9 +221,9 @@ const PromoChecker = () => {
                 </div>
                 
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Status</p>
+                  <p className="text-sm text-gray-500 mb-1">Статус</p>
                   <p className={`font-medium ${result.status?.isUsed ? 'text-red-600' : 'text-green-600'}`}>
-                    {result.status?.isUsed ? 'Used' : 'Available'}
+                    {result.status?.isUsed ? 'Использован' : 'Доступен'}
                   </p>
                 </div>
               </div>
@@ -231,7 +231,7 @@ const PromoChecker = () => {
               {/* Description */}
               {result.status?.description && (
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Description</p>
+                  <p className="text-sm text-gray-500 mb-1">Описание</p>
                   <p className="text-gray-900">{result.status.description}</p>
                 </div>
               )}

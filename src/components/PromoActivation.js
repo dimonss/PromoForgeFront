@@ -40,7 +40,7 @@ const PromoActivation = () => {
       }
     } catch (error) {
       console.error('Camera error:', error);
-      setCameraError('Unable to access camera. Please check permissions.');
+      setCameraError('Не удается получить доступ к камере. Проверьте разрешения.');
       setScanning(false);
     }
   };
@@ -72,7 +72,7 @@ const PromoActivation = () => {
       const simulatedCode = `PROMO${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
       setPromoCode(simulatedCode);
       stopCamera();
-      toast.success('Promo code scanned successfully!');
+      toast.success('Промо-код успешно отсканирован!');
     }, 1000);
   };
 
@@ -92,7 +92,7 @@ const PromoActivation = () => {
         notes: notes.trim() || null
       });
 
-      toast.success('Promo code activated successfully!');
+      toast.success('Промо-код успешно активирован!');
       
       // Reset form
       setPromoCode('');
@@ -110,9 +110,9 @@ const PromoActivation = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Activate Promo Code</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Активировать промо-код</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Enter or scan a promo code to activate it
+          Введите или отсканируйте промо-код для его активации
         </p>
       </div>
 
@@ -125,7 +125,7 @@ const PromoActivation = () => {
             {/* Promo Code Input */}
             <div>
               <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
-                Promo Code *
+                Промо-код *
               </label>
               <div className="flex space-x-2">
                 <input
@@ -134,7 +134,7 @@ const PromoActivation = () => {
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
                   className="flex-1 form-input"
-                  placeholder="Enter promo code or scan QR code"
+                  placeholder="Введите промо-код или отсканируйте QR-код"
                   required
                 />
                 <button
@@ -195,7 +195,7 @@ const PromoActivation = () => {
               ) : (
                 <>
                   <CheckCircle size={20} />
-                  Activate Promo Code
+                  Активировать промо-код
                 </>
               )}
             </button>
@@ -204,7 +204,7 @@ const PromoActivation = () => {
 
         {/* Camera Scanner */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">QR Code Scanner</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-4">QR-код сканер</h2>
           
           {scanning ? (
             <div className="space-y-4">
@@ -236,14 +236,14 @@ const PromoActivation = () => {
               ) : (
                 <div className="text-center">
                   <p className="text-sm text-gray-600 mb-4">
-                    Position the QR code within the frame
+                    Поместите QR-код в рамку
                   </p>
                   <button
                     onClick={captureAndScan}
                     className="btn btn-primary"
                   >
                     <Camera size={20} />
-                    Capture & Scan
+                    Захватить и сканировать
                   </button>
                 </div>
               )}
@@ -254,17 +254,17 @@ const PromoActivation = () => {
                 <Camera size={48} className="mx-auto text-gray-400" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Ready to Scan
+                Готов к сканированию
               </h3>
               <p className="text-sm text-gray-500 mb-4">
-                Click the camera button to start scanning QR codes
+                Нажмите кнопку камеры для начала сканирования QR-кодов
               </p>
               <button
                 onClick={startCamera}
                 className="btn btn-primary"
               >
                 <Camera size={20} />
-                Start Camera
+                Запустить камеру
               </button>
             </div>
           )}
@@ -275,10 +275,10 @@ const PromoActivation = () => {
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h3 className="text-sm font-medium text-blue-800 mb-2">Instructions</h3>
         <ul className="text-sm text-blue-700 space-y-1">
-          <li>• Enter the promo code manually or use the camera to scan a QR code</li>
+          <li>• Введите промо-код вручную или используйте камеру для сканирования QR-кода</li>
           <li>• Each promo code can only be activated once</li>
           <li>• Customer information and notes are optional but recommended for tracking</li>
-          <li>• Make sure you have camera permissions enabled for QR code scanning</li>
+          <li>• Убедитесь, что у вас включены разрешения камеры для сканирования QR-кодов</li>
         </ul>
       </div>
     </div>

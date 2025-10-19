@@ -13,9 +13,9 @@ const Settings = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Настройки</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Manage your account settings and preferences
+          Управление настройками аккаунта и предпочтениями
         </p>
       </div>
 
@@ -24,13 +24,13 @@ const Settings = () => {
         <div className="bg-white shadow rounded-lg p-6">
           <div className="flex items-center mb-4">
             <User className="h-5 w-5 text-gray-400 mr-2" />
-            <h2 className="text-lg font-medium text-gray-900">User Information</h2>
+            <h2 className="text-lg font-medium text-gray-900">Информация о пользователе</h2>
           </div>
           
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
+                Полное имя
               </label>
               <div className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-md">
                 {user?.fullName}
@@ -39,7 +39,7 @@ const Settings = () => {
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Username
+                Имя пользователя
               </label>
               <div className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-md">
                 {user?.username}
@@ -48,7 +48,7 @@ const Settings = () => {
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                User ID
+                ID пользователя
               </label>
               <div className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-md font-mono">
                 {user?.id}
@@ -62,13 +62,13 @@ const Settings = () => {
       <div className="bg-white shadow rounded-lg p-6">
         <div className="flex items-center mb-4">
           <SettingsIcon className="h-5 w-5 text-gray-400 mr-2" />
-          <h2 className="text-lg font-medium text-gray-900">System Information</h2>
+          <h2 className="text-lg font-medium text-gray-900">Системная информация</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Application Version
+              Версия приложения
             </label>
             <div className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-md">
               PromoForge v1.0.0
@@ -77,7 +77,7 @@ const Settings = () => {
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Environment
+              Окружение
             </label>
             <div className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-md">
               {process.env.NODE_ENV || 'development'}
@@ -95,7 +95,7 @@ const Settings = () => {
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Last Login
+              Последний вход
             </label>
             <div className="text-sm text-gray-900 bg-gray-50 px-3 py-2 rounded-md">
               {new Date().toLocaleString()}
@@ -114,14 +114,14 @@ const Settings = () => {
           </div>
           <div className="ml-3">
             <h3 className="text-sm font-medium text-yellow-800">
-              Security Notice
+              Уведомление о безопасности
             </h3>
             <div className="mt-2 text-sm text-yellow-700">
               <ul className="list-disc list-inside space-y-1">
-                <li>Always use a strong, unique password</li>
-                <li>Change your password regularly</li>
-                <li>Never share your login credentials</li>
-                <li>Log out when finished using the system</li>
+                <li>Всегда используйте надежный, уникальный пароль</li>
+                <li>Регулярно меняйте пароль</li>
+                <li>Никогда не делитесь учетными данными</li>
+                <li>Выходите из системы после завершения работы</li>
               </ul>
             </div>
           </div>

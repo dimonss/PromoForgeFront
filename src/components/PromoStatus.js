@@ -75,7 +75,7 @@ const PromoStatus = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Check Promo Code Status</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Проверить статус промо-кода</h1>
         <p className="mt-1 text-sm text-gray-500">
           Verify the status and details of a promo code
         </p>
@@ -84,12 +84,12 @@ const PromoStatus = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Status Check Form */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Enter Promo Code</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Введите промо-код</h2>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
-                Promo Code *
+                Промо-код *
               </label>
               <input
                 type="text"
@@ -97,7 +97,7 @@ const PromoStatus = () => {
                 value={promoCode}
                 onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
                 className="form-input"
-                placeholder="Enter promo code to check status"
+                placeholder="Введите промо-код для проверки статуса"
                 required
               />
             </div>
@@ -110,12 +110,12 @@ const PromoStatus = () => {
               {loading ? (
                 <>
                   <div className="spinner"></div>
-                  Checking Status...
+                  Проверка статуса...
                 </>
               ) : (
                 <>
                   <Search size={20} />
-                  Check Status
+                  Проверить статус
                 </>
               )}
             </button>
@@ -124,14 +124,14 @@ const PromoStatus = () => {
 
         {/* Status Results */}
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Status Information</h2>
+          <h2 className="text-lg font-medium text-gray-900 mb-4">Информация о статусе</h2>
           
           {statusData ? (
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 {getStatusIcon(statusData.status)}
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900">Status</h3>
+                  <h3 className="text-lg font-medium text-gray-900">Статус</h3>
                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(statusData.status)}`}>
                     {statusData.status}
                   </span>
@@ -140,7 +140,7 @@ const PromoStatus = () => {
 
               <div className="space-y-3">
                 <div className="flex justify-between py-2 border-b border-gray-200">
-                  <span className="text-sm font-medium text-gray-500">Code:</span>
+                  <span className="text-sm font-medium text-gray-500">Код:</span>
                   <span className="text-sm font-mono text-gray-900">{statusData.code}</span>
                 </div>
                 
@@ -208,10 +208,10 @@ const PromoStatus = () => {
                 <Search size={48} className="mx-auto text-gray-400" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No Status Checked
+                Статус не проверен
               </h3>
               <p className="text-sm text-gray-500">
-                Enter a promo code and click "Check Status" to view its information
+                Введите промо-код и нажмите "Проверить статус" для просмотра информации
               </p>
             </div>
           )}
@@ -223,9 +223,9 @@ const PromoStatus = () => {
         <div className="flex">
           <Info size={20} className="text-blue-500 mr-2 mt-0.5" />
           <div>
-            <h3 className="text-sm font-medium text-blue-800 mb-2">About Status Checking</h3>
+            <h3 className="text-sm font-medium text-blue-800 mb-2">О проверке статуса</h3>
             <ul className="text-sm text-blue-700 space-y-1">
-              <li>• Status information is retrieved from the external API</li>
+              <li>• Информация о статусе получается из внешнего API</li>
               <li>• This shows the current state of the promo code in the external system</li>
               <li>• Activation status is tracked separately in this application</li>
               <li>• Use the History page to see which codes have been activated locally</li>
