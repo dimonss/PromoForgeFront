@@ -33,7 +33,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "/promo_forge/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "theme_color": "#000000",
@@ -41,7 +41,7 @@
   "categories": ["business", "productivity", "utilities"],
   "lang": "en",
   "dir": "ltr",
-  "scope": "/",
+  "scope": "/promo_forge/",
   "prefer_related_applications": false,
   "display_override": ["window-controls-overlay"],
   "edge_side_panel": {
