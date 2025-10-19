@@ -4,13 +4,29 @@ import { promoAPI } from '../services/api';
 import { toast } from 'react-toastify';
 import { QrCode, Search, CheckCircle, XCircle, Camera } from 'lucide-react';
 import QRScanner from './QRScanner';
+import LogoutModal from './LogoutModal';
 
 const PromoChecker = () => {
   const [promoCode, setPromoCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [showScanner, setShowScanner] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { user, logout } = useAuth();
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    logout();
+    window.location.href = '/login';
+    setShowLogoutModal(false);
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
+  };
 
   const handleCheckPromo = async () => {
     if (!promoCode.trim()) {
@@ -60,10 +76,7 @@ const PromoChecker = () => {
             <div className="flex items-center space-x-3">
               <span className="text-sm text-gray-600">{user?.fullName || user?.username}</span>
               <button
-                onClick={() => {
-                  logout();
-                  window.location.href = '/login';
-                }}
+                onClick={handleLogoutClick}
                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                 title="Logout"
               >
@@ -95,7 +108,7 @@ const PromoChecker = () => {
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
                     placeholder="Type promo code..."
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors font-mono"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors font-mono text-gray-900"
                     onKeyPress={(e) => e.key === 'Enter' && handleCheckPromo()}
                   />
                   {promoCode && (
@@ -227,6 +240,13 @@ const PromoChecker = () => {
         )}
 
       </div>
+
+      {/* Logout Modal */}
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={handleLogoutCancel}
+        onConfirm={handleLogoutConfirm}
+      />
     </div>
   );
 };

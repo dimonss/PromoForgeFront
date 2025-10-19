@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import LogoutModal from './LogoutModal';
 import { 
   LayoutDashboard, 
   QrCode, 
@@ -18,6 +19,7 @@ const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -28,9 +30,18 @@ const Layout = () => {
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleLogoutConfirm = () => {
     logout();
     navigate('/login');
+    setShowLogoutModal(false);
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
   };
 
   const isActive = (href) => location.pathname === href;
@@ -96,7 +107,7 @@ const Layout = () => {
               </p>
             </div>
             <button
-              onClick={handleLogout}
+              onClick={handleLogoutClick}
               className="ml-3 p-2 text-gray-400 hover:text-gray-600 transition-colors"
               title="Logout"
             >
@@ -137,6 +148,13 @@ const Layout = () => {
           </div>
         </main>
       </div>
+
+      {/* Logout Modal */}
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={handleLogoutCancel}
+        onConfirm={handleLogoutConfirm}
+      />
     </div>
   );
 };
