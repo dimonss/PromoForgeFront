@@ -48,23 +48,11 @@ export const authAPI = {
 
 // Promo API
 export const promoAPI = {
-  generate: (data) => 
-    api.post('/promo/generate', data),
-  
   checkStatus: (promoCode) => 
     api.get(`/promo/status/${promoCode}`),
   
-  activate: (data) => 
-    api.post('/promo/activate', data),
-  
-  deactivate: (promoCode, reason) => 
-    api.post('/promo/deactivate', { promoCode, reason }),
-  
-  getActivations: (page = 1, limit = 50) => 
-    api.get(`/promo/activations?page=${page}&limit=${limit}`),
-  
-  getLogs: (page = 1, limit = 50) => 
-    api.get(`/promo/logs?page=${page}&limit=${limit}`)
+  deactivate: (promoCode) => 
+    api.post('/promo/deactivate', { promoCode })
 };
 
 export default api;

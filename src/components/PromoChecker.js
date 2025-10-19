@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { promoAPI } from '../services/api';
+import { validatePromoCode } from '../utils/validation';
 import { toast } from 'react-toastify';
 import { QrCode, Search, CheckCircle, XCircle, Camera, Ban } from 'lucide-react';
 import QRScanner from './QRScanner';
@@ -31,8 +32,10 @@ const PromoChecker = () => {
   };
 
   const handleCheckPromo = async () => {
-    if (!promoCode.trim()) {
-      toast.error('Please enter a promo code');
+    // Validate promo code format
+    const validation = validatePromoCode(promoCode);
+    if (!validation.isValid) {
+      toast.error(validation.error);
       return;
     }
 
@@ -55,6 +58,13 @@ const PromoChecker = () => {
   const handleScanResult = async (scannedCode) => {
     setPromoCode(scannedCode);
     setShowScanner(false);
+    
+    // Validate scanned promo code format
+    const validation = validatePromoCode(scannedCode);
+    if (!validation.isValid) {
+      toast.error(validation.error);
+      return;
+    }
     
     // Automatically check the scanned promo code
     setLoading(true);
@@ -83,13 +93,33 @@ const PromoChecker = () => {
   };
 
   const handleDeactivateConfirm = async () => {
+    // Validate promo code format before deactivation
+    const validation = validatePromoCode(promoCode);
+    if (!validation.isValid) {
+      toast.error(validation.error);
+      setShowDeactivateModal(false);
+      return;
+    }
+
     setDeactivateLoading(true);
     
     try {
-      await promoAPI.deactivate(promoCode.trim(), 'Deactivated by user');
+      const response = await promoAPI.deactivate(promoCode.trim());
       toast.success('Промо-код успешно деактивирован');
-      setResult(null);
-      setPromoCode('');
+      
+      // Обновляем результат, чтобы показать деактивированный статус
+      if (result && result.status) {
+        setResult({
+          ...result,
+          status: {
+            ...result.status,
+            isActive: false,
+            deactivatedAt: response.data.deactivatedAt,
+            deactivatedBy: response.data.deactivatedBy
+          }
+        });
+      }
+      
       setShowDeactivateModal(false);
     } catch (error) {
       console.error('Deactivate promo code error:', error);
@@ -138,6 +168,9 @@ const PromoChecker = () => {
               <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
                 Введите или отсканируйте промо-код
               </label>
+              <p className="text-xs text-gray-500 mb-3">
+                Промо-код должен быть в формате UUID (36 символов с дефисами)
+              </p>
               <div className="flex gap-2">
                 <div className="flex-1 relative">
                   <input
@@ -145,7 +178,7 @@ const PromoChecker = () => {
                     id="promoCode"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    placeholder="Введите промо-код..."
+                    placeholder="Введите UUID промо-код (например: 550e8400-e29b-41d4-a716-446655440000)"
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors font-mono text-gray-900"
                     onKeyPress={(e) => e.key === 'Enter' && handleCheckPromo()}
                   />
@@ -217,13 +250,13 @@ const PromoChecker = () => {
             <div className="space-y-4">
               {/* Status */}
               <div className="flex items-center space-x-3">
-                {result.status?.isValid ? (
+                {result.status?.isActive ? (
                   <CheckCircle className="h-6 w-6 text-green-500" />
                 ) : (
                   <XCircle className="h-6 w-6 text-red-500" />
                 )}
-                <span className={`font-medium ${result.status?.isValid ? 'text-green-700' : 'text-red-700'}`}>
-                  {result.status?.isValid ? 'Valid' : 'Invalid'}
+                <span className={`font-medium ${result.status?.isActive ? 'text-green-700' : 'text-red-700'}`}>
+                  {result.status?.isActive ? 'Активен' : 'Деактивирован'}
                 </span>
               </div>
 
@@ -236,46 +269,36 @@ const PromoChecker = () => {
               </div>
 
               {/* Details */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">Тип</p>
-                  <p className="font-medium text-gray-900 capitalize">
-                    {result.status?.type || 'Unknown'}
-                  </p>
-                </div>
-                
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Значение</p>
+                  <p className="text-sm text-gray-500 mb-1">Дата создания</p>
                   <p className="font-medium text-gray-900">
-                    {result.status?.value || 'N/A'}
+                    {result.status?.createdAt ? new Date(result.status.createdAt).toLocaleString('ru-RU') : 'N/A'}
                   </p>
                 </div>
                 
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Истечение срока действия</p>
-                  <p className="font-medium text-gray-900">
-                    {result.status?.expiryDate ? new Date(result.status.expiryDate).toLocaleDateString() : 'No expiry'}
-                  </p>
-                </div>
+                {result.status?.deactivatedAt && (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-1">Дата деактивации</p>
+                    <p className="font-medium text-gray-900">
+                      {new Date(result.status.deactivatedAt).toLocaleString('ru-RU')}
+                    </p>
+                  </div>
+                )}
                 
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Статус</p>
-                  <p className={`font-medium ${result.status?.isUsed ? 'text-red-600' : 'text-green-600'}`}>
-                    {result.status?.isUsed ? 'Использован' : 'Доступен'}
-                  </p>
-                </div>
+                {result.status?.deactivatedBy && (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-1">Деактивирован пользователем</p>
+                    <p className="font-medium text-gray-900">
+                      {result.status.deactivatedBy}
+                    </p>
+                  </div>
+                )}
+                
               </div>
 
-              {/* Description */}
-              {result.status?.description && (
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Описание</p>
-                  <p className="text-gray-900">{result.status.description}</p>
-                </div>
-              )}
-
-              {/* Deactivate Button - only show for valid, unused codes */}
-              {result.status?.isValid && !result.status?.isUsed && (
+              {/* Deactivate Button - only show for active codes */}
+              {result.status?.isActive && (
                 <div className="pt-4 border-t border-gray-200">
                   <button
                     onClick={handleDeactivateClick}
