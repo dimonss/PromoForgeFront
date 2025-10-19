@@ -1,77 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { toast } from 'react-toastify';
 import { 
   Settings as SettingsIcon, 
-  User, 
-  Lock, 
-  Save,
-  Eye,
-  EyeOff
+  User
 } from 'lucide-react';
 
 const Settings = () => {
-  const { user, changePassword } = useAuth();
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [showPasswords, setShowPasswords] = useState({
-    current: false,
-    new: false,
-    confirm: false
-  });
+  const { user } = useAuth();
 
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPasswordForm(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const togglePasswordVisibility = (field) => {
-    setShowPasswords(prev => ({
-      ...prev,
-      [field]: !prev[field]
-    }));
-  };
-
-  const handlePasswordSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      toast.error('New passwords do not match');
-      return;
-    }
-
-    if (passwordForm.newPassword.length < 6) {
-      toast.error('New password must be at least 6 characters long');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await changePassword(passwordForm.currentPassword, passwordForm.newPassword);
-      
-      if (result.success) {
-        toast.success('Password changed successfully!');
-        setPasswordForm({
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: ''
-        });
-      } else {
-        toast.error(result.error || 'Failed to change password');
-      }
-    } catch (error) {
-      toast.error('An unexpected error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -119,123 +55,6 @@ const Settings = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Change Password */}
-        <div className="bg-white shadow rounded-lg p-6">
-          <div className="flex items-center mb-4">
-            <Lock className="h-5 w-5 text-gray-400 mr-2" />
-            <h2 className="text-lg font-medium text-gray-900">Change Password</h2>
-          </div>
-          
-          <form onSubmit={handlePasswordSubmit} className="space-y-4">
-            {/* Current Password */}
-            <div>
-              <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Current Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPasswords.current ? 'text' : 'password'}
-                  id="currentPassword"
-                  name="currentPassword"
-                  value={passwordForm.currentPassword}
-                  onChange={handlePasswordChange}
-                  className="form-input pr-10"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('current')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showPasswords.current ? (
-                    <EyeOff className="h-4 w-4 text-gray-400" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* New Password */}
-            <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                New Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPasswords.new ? 'text' : 'password'}
-                  id="newPassword"
-                  name="newPassword"
-                  value={passwordForm.newPassword}
-                  onChange={handlePasswordChange}
-                  className="form-input pr-10"
-                  minLength="6"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('new')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showPasswords.new ? (
-                    <EyeOff className="h-4 w-4 text-gray-400" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm New Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showPasswords.confirm ? 'text' : 'password'}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={passwordForm.confirmPassword}
-                  onChange={handlePasswordChange}
-                  className="form-input pr-10"
-                  minLength="6"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => togglePasswordVisibility('confirm')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showPasswords.confirm ? (
-                    <EyeOff className="h-4 w-4 text-gray-400" />
-                  ) : (
-                    <Eye className="h-4 w-4 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading || !passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword}
-              className="w-full btn btn-primary"
-            >
-              {loading ? (
-                <>
-                  <div className="spinner"></div>
-                  Changing Password...
-                </>
-              ) : (
-                <>
-                  <Save size={20} />
-                  Change Password
-                </>
-              )}
-            </button>
-          </form>
         </div>
       </div>
 

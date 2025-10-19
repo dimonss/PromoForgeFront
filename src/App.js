@@ -5,13 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import PromoActivation from './components/PromoActivation';
-import PromoGeneration from './components/PromoGeneration';
-import PromoStatus from './components/PromoStatus';
-import ActivationHistory from './components/ActivationHistory';
-import Settings from './components/Settings';
-import Layout from './components/Layout';
+import PromoChecker from './components/PromoChecker';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -33,9 +27,12 @@ const ProtectedRoute = ({ children }) => {
 
 // Public Route component (redirect if authenticated)
 const PublicRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user, token } = useAuth();
+
+  console.log('PublicRoute - isAuthenticated:', isAuthenticated, 'loading:', loading, 'user:', user, 'token:', !!token);
 
   if (loading) {
+    console.log('PublicRoute - Still loading...');
     return (
       <div className="flex-center" style={{ height: '100vh' }}>
         <div className="loading">
@@ -46,7 +43,13 @@ const PublicRoute = ({ children }) => {
     );
   }
 
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
+  if (isAuthenticated) {
+    console.log('PublicRoute - User is authenticated, redirecting to checker');
+    return <Navigate to="/checker" replace />;
+  }
+
+  console.log('PublicRoute - User not authenticated, showing login form');
+  return children;
 };
 
 function AppRoutes() {
@@ -61,21 +64,17 @@ function AppRoutes() {
         } 
       />
       <Route 
-        path="/" 
+        path="/checker" 
         element={
           <ProtectedRoute>
-            <Layout />
+            <PromoChecker />
           </ProtectedRoute>
         }
-      >
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="activate" element={<PromoActivation />} />
-        <Route path="generate" element={<PromoGeneration />} />
-        <Route path="status" element={<PromoStatus />} />
-        <Route path="history" element={<ActivationHistory />} />
-        <Route path="settings" element={<Settings />} />
-      </Route>
+      />
+      <Route 
+        path="/" 
+        element={<Navigate to="/checker" replace />}
+      />
     </Routes>
   );
 }

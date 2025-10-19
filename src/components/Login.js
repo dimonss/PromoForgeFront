@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { QrCode, User, Lock } from 'lucide-react';
@@ -9,7 +10,16 @@ const Login = () => {
     password: ''
   });
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  // Watch for authentication changes and redirect
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log('Login component - User is now authenticated, redirecting...');
+      navigate('/checker', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -27,10 +37,12 @@ const Login = () => {
       
       if (result.success) {
         toast.success('Login successful!');
+        console.log('Login successful, should redirect now');
       } else {
         toast.error(result.error || 'Login failed');
       }
     } catch (error) {
+      console.error('Login error:', error);
       toast.error('An unexpected error occurred');
     } finally {
       setLoading(false);

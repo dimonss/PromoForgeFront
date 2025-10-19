@@ -42,10 +42,7 @@ export const authAPI = {
   getCurrentUser: () => 
     api.get('/auth/me'),
   
-  changePassword: (currentPassword, newPassword) => 
-    api.post('/auth/change-password', { currentPassword, newPassword }),
-  
-  logout: () => 
+  logout: () =>
     api.post('/auth/logout')
 };
 
