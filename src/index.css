@@ -17,6 +17,7 @@ body {
   background-color: #ffffff;
   color: #111827;
   line-height: 1.5;
+  margin-top: env(safe-area-inset-top);
 }
 
 code {
