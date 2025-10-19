@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import PromoChecker from './components/PromoChecker';
+import PWAInstall from './components/PWAInstall';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -85,6 +86,7 @@ function App() {
       <Router>
         <div className="App">
           <AppRoutes />
+          <PWAInstall />
           <ToastContainer
             position="top-right"
             autoClose={5000}
