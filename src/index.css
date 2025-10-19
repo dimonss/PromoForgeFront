@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;
@@ -10,8 +14,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #ffffff;
+  color: #111827;
+  line-height: 1.5;
 }
 
 code {
@@ -248,6 +253,7 @@ code {
 
 .hidden { display: none; }
 
+/* Mobile-first responsive design */
 @media (max-width: 768px) {
   .container {
     padding: 0 16px;
@@ -260,5 +266,91 @@ code {
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;
+  }
+
+  /* Mobile-specific improvements */
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  /* Touch-friendly buttons */
+  .btn {
+    min-height: 44px; /* iOS recommended touch target */
+    padding: 12px 20px;
+  }
+
+  /* Better form inputs on mobile */
+  .form-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 14px 12px;
+  }
+
+  /* Improved spacing for mobile */
+  .mb-4 { margin-bottom: 20px; }
+  .mt-4 { margin-top: 20px; }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+  
+  .card {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* Compact buttons for small screens */
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .min-h-screen {
+    min-height: auto;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure crisp borders and shadows */
+  .card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #e5e5e5;
+  }
+  
+  .card {
+    background: #2d2d2d;
+    color: #e5e5e5;
+  }
+  
+  .form-input {
+    background: #3d3d3d;
+    border-color: #555;
+    color: #e5e5e5;
+  }
+  
+  .form-input:focus {
+    border-color: #007bff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -46,55 +46,95 @@ const PromoChecker = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="bg-blue-600 p-3 rounded-full">
-              <QrCode className="h-8 w-8 text-white" />
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-2xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                <QrCode className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-lg font-semibold text-gray-900">PromoForge</h1>
+            </div>
+            <div className="flex items-center space-x-3">
+              <span className="text-sm text-gray-600">{user?.fullName || user?.username}</span>
+              <button
+                onClick={() => {
+                  logout();
+                  window.location.href = '/login';
+                }}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                title="Logout"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </button>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">PromoForge</h1>
-          <p className="mt-2 text-gray-600">Promo Code Checker</p>
-          <p className="text-sm text-gray-500">Welcome, {user?.fullName || user?.username}</p>
         </div>
+      </div>
+
+      <div className="max-w-2xl mx-auto px-4 py-8">
 
         {/* Promo Code Input */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Check Promo Code</h2>
+        <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Check Promo Code</h2>
           
           <div className="space-y-4">
             <div>
               <label htmlFor="promoCode" className="block text-sm font-medium text-gray-700 mb-2">
-                Promo Code
+                Enter or scan promo code
               </label>
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  id="promoCode"
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder="Enter or scan promo code"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  onKeyPress={(e) => e.key === 'Enter' && handleCheckPromo()}
-                />
+              <div className="flex gap-2">
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    id="promoCode"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    placeholder="Type promo code..."
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-colors font-mono"
+                    onKeyPress={(e) => e.key === 'Enter' && handleCheckPromo()}
+                  />
+                  {promoCode && (
+                    <button
+                      onClick={() => setPromoCode('')}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
                 <button
                   onClick={() => setShowScanner(!showScanner)}
-                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  title="Toggle QR Scanner"
+                  className={`px-4 py-3 rounded-lg transition-colors ${
+                    showScanner 
+                      ? 'bg-black text-white' 
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  title="QR Scanner"
                 >
                   <Camera className="h-5 w-5" />
                 </button>
                 <button
                   onClick={handleCheckPromo}
                   disabled={loading || !promoCode.trim()}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
                 >
                   {loading ? (
-                    <div className="spinner"></div>
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span className="hidden sm:inline">Checking...</span>
+                    </>
                   ) : (
-                    <Search className="h-5 w-5" />
+                    <>
+                      <Search className="h-4 w-4" />
+                      <span className="hidden sm:inline">Check</span>
+                    </>
                   )}
                 </button>
               </div>
@@ -112,18 +152,19 @@ const PromoChecker = () => {
 
         {/* Results */}
         {result && (
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Promo Code Status</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Result</h3>
               <button
                 onClick={clearResult}
-                className="text-sm text-gray-500 hover:text-gray-700"
+                className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
               >
                 Clear
               </button>
             </div>
 
             <div className="space-y-4">
+              {/* Status */}
               <div className="flex items-center space-x-3">
                 {result.status?.isValid ? (
                   <CheckCircle className="h-6 w-6 text-green-500" />
@@ -135,61 +176,56 @@ const PromoChecker = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Code */}
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Code</p>
+                <p className="text-xl font-mono font-semibold text-gray-900">
+                  {result.status?.code || promoCode}
+                </p>
+              </div>
+
+              {/* Details */}
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Code</label>
-                  <p className="mt-1 text-sm text-gray-900 font-mono">{result.status?.code || promoCode}</p>
+                  <p className="text-sm text-gray-500 mb-1">Type</p>
+                  <p className="font-medium text-gray-900 capitalize">
+                    {result.status?.type || 'Unknown'}
+                  </p>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Type</label>
-                  <p className="mt-1 text-sm text-gray-900">{result.status?.type || 'N/A'}</p>
+                  <p className="text-sm text-gray-500 mb-1">Value</p>
+                  <p className="font-medium text-gray-900">
+                    {result.status?.value || 'N/A'}
+                  </p>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Value</label>
-                  <p className="mt-1 text-sm text-gray-900">{result.status?.value || 'N/A'}</p>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Expiry</label>
-                  <p className="mt-1 text-sm text-gray-900">
+                  <p className="text-sm text-gray-500 mb-1">Expiry</p>
+                  <p className="font-medium text-gray-900">
                     {result.status?.expiryDate ? new Date(result.status.expiryDate).toLocaleDateString() : 'No expiry'}
+                  </p>
+                </div>
+                
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Status</p>
+                  <p className={`font-medium ${result.status?.isUsed ? 'text-red-600' : 'text-green-600'}`}>
+                    {result.status?.isUsed ? 'Used' : 'Available'}
                   </p>
                 </div>
               </div>
 
+              {/* Description */}
               {result.status?.description && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Description</label>
-                  <p className="mt-1 text-sm text-gray-900">{result.status.description}</p>
-                </div>
-              )}
-
-              {result.status?.isUsed !== undefined && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Usage Status</label>
-                  <p className={`mt-1 text-sm ${result.status.isUsed ? 'text-red-600' : 'text-green-600'}`}>
-                    {result.status.isUsed ? 'Already Used' : 'Available'}
-                  </p>
+                  <p className="text-sm text-gray-500 mb-1">Description</p>
+                  <p className="text-gray-900">{result.status.description}</p>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* Logout Button */}
-        <div className="mt-8 text-center">
-          <button
-            onClick={() => {
-              logout();
-              window.location.href = '/login';
-            }}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            Logout
-          </button>
-        </div>
       </div>
     </div>
   );
