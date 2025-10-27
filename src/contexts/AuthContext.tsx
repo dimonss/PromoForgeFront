@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authAPI } from '../services/api';
+import type { User, AuthContextValue } from '../types';
 
-const AuthContext = createContext();
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextValue => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
@@ -11,10 +12,14 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(null);
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -41,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
-  const login = async (username, password) => {
+  const login = async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
       console.log('AuthContext - Starting login process');
       const response = await authAPI.login(username, password);
@@ -73,7 +78,7 @@ export const AuthProvider = ({ children }) => {
       console.log('AuthContext - State updated, isAuthenticated should be:', !!userData);
       
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       console.error('AuthContext - Login error:', error);
       return { 
         success: false, 
@@ -82,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = (): void => {
     console.log('AuthContext - Logging out');
     localStorage.removeItem('token');
     setToken(null);
@@ -91,7 +96,7 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  const value = {
+  const value: AuthContextValue = {
     user,
     token,
     loading,
@@ -114,3 +119,4 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+

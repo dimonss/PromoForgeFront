@@ -8,8 +8,12 @@ import Login from './components/Login';
 import PromoChecker from './components/PromoChecker';
 import PWAInstall from './components/PWAInstall';
 
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
 // Protected Route component
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
@@ -23,11 +27,15 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
+interface PublicRouteProps {
+  children: React.ReactNode;
+}
+
 // Public Route component (redirect if authenticated)
-const PublicRoute = ({ children }) => {
+const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
   const { isAuthenticated, loading, user, token } = useAuth();
 
   console.log('PublicRoute - isAuthenticated:', isAuthenticated, 'loading:', loading, 'user:', user, 'token:', !!token);
@@ -50,10 +58,10 @@ const PublicRoute = ({ children }) => {
   }
 
   console.log('PublicRoute - User not authenticated, showing login form');
-  return children;
+  return <>{children}</>;
 };
 
-function AppRoutes() {
+const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route 
@@ -78,9 +86,9 @@ function AppRoutes() {
       />
     </Routes>
   );
-}
+};
 
-function App() {
+const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router basename="/promo_forge">
@@ -106,6 +114,7 @@ function App() {
       </Router>
     </AuthProvider>
   );
-}
+};
 
 export default App;
+

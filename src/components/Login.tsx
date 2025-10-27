@@ -4,12 +4,12 @@ import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { QrCode } from 'lucide-react';
 
-const Login = () => {
+const Login: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -21,14 +21,14 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 

@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import type { LoginResponse, PromoCodeStatusResponse, DeactivateResponse, ApiError } from '../types';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
@@ -25,7 +26,7 @@ api.interceptors.request.use(
 // Response interceptor to handle auth errors
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error: AxiosError) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';
@@ -36,11 +37,11 @@ api.interceptors.response.use(
 
 // Auth API
 export const authAPI = {
-  login: (username, password) => 
-    api.post('/auth/login', { username, password }),
+  login: (username: string, password: string) => 
+    api.post<LoginResponse>('/auth/login', { username, password }),
   
   getCurrentUser: () => 
-    api.get('/auth/me'),
+    api.get<{ user: { id: number; username: string; fullName: string } }>('/auth/me'),
   
   logout: () =>
     api.post('/auth/logout')
@@ -48,11 +49,12 @@ export const authAPI = {
 
 // Promo API
 export const promoAPI = {
-  checkStatus: (promoCode) => 
-    api.get(`/promo/status/${promoCode}`),
+  checkStatus: (promoCode: string) => 
+    api.get<PromoCodeStatusResponse>(`/promo/status/${promoCode}`),
   
-  deactivate: (promoCode) => 
-    api.post('/promo/deactivate', { promoCode })
+  deactivate: (promoCode: string) => 
+    api.post<DeactivateResponse>('/promo/deactivate', { promoCode })
 };
 
 export default api;
+

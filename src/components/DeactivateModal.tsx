@@ -1,7 +1,8 @@
 import React from 'react';
 import { X, AlertTriangle } from 'lucide-react';
+import type { DeactivateModalProps } from '../types';
 
-const DeactivateModal = ({ isOpen, onClose, onConfirm, promoCode, loading }) => {
+const DeactivateModal: React.FC<DeactivateModalProps> = ({ isOpen, onClose, onConfirm, promoCode, loading }) => {
   const handleConfirm = () => {
     onConfirm();
   };
@@ -84,3 +85,4 @@ const DeactivateModal = ({ isOpen, onClose, onConfirm, promoCode, loading }) => 
 };
 
 export default DeactivateModal;
+

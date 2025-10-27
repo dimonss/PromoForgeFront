@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X } from 'lucide-react';
+import type { BeforeInstallPromptEvent } from '../types';
 
-const PWAInstall = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+const PWAInstall: React.FC = () => {
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
+    const handleBeforeInstallPrompt = (e: Event) => {
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
       // Stash the event so it can be triggered later
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       
       // Only show install prompt if not already installed and not dismissed
       if (!localStorage.getItem('pwa-installed') && !sessionStorage.getItem('pwa-install-dismissed')) {
@@ -21,7 +22,7 @@ const PWAInstall = () => {
     // Check if PWA is already installed
     const checkIfInstalled = () => {
       if (window.matchMedia('(display-mode: standalone)').matches || 
-          window.navigator.standalone === true) {
+          (window.navigator as any).standalone === true) {
         localStorage.setItem('pwa-installed', 'true');
         setShowInstallPrompt(false);
       }
@@ -118,3 +119,4 @@ const PWAInstall = () => {
 };
 
 export default PWAInstall;
+

@@ -2,12 +2,17 @@
  * Utility functions for validation
  */
 
+interface ValidationResult {
+  isValid: boolean;
+  error: string | null;
+}
+
 /**
  * Validates if a string is a valid UUID format
- * @param {string} uuid - The string to validate
- * @returns {boolean} - True if valid UUID, false otherwise
+ * @param uuid - The string to validate
+ * @returns - True if valid UUID, false otherwise
  */
-export const isValidUUID = (uuid) => {
+export const isValidUUID = (uuid: string | undefined): boolean => {
   if (!uuid || typeof uuid !== 'string') {
     return false;
   }
@@ -19,10 +24,10 @@ export const isValidUUID = (uuid) => {
 
 /**
  * Validates promo code format
- * @param {string} promoCode - The promo code to validate
- * @returns {object} - Validation result with isValid and error message
+ * @param promoCode - The promo code to validate
+ * @returns - Validation result with isValid and error message
  */
-export const validatePromoCode = (promoCode) => {
+export const validatePromoCode = (promoCode: string): ValidationResult => {
   if (!promoCode || promoCode.trim().length === 0) {
     return {
       isValid: false,
@@ -42,3 +47,4 @@ export const validatePromoCode = (promoCode) => {
     error: null
   };
 };
+

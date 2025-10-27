@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import jsQR from 'jsqr';
+import type { QRScannerProps } from '../types';
 
-const QRScanner = ({ onScan, onClose }) => {
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const streamRef = useRef(null);
-  const [error, setError] = useState(null);
+const QRScanner: React.FC<QRScannerProps> = ({ onScan, onClose }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanningStatus, setScanningStatus] = useState('Инициализация...');
 
@@ -65,7 +66,8 @@ const QRScanner = ({ onScan, onClose }) => {
     
     // Also stop using videoRef
     if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = videoRef.current.srcObject.getTracks();
+      const srcObject = videoRef.current.srcObject as MediaStream;
+      const tracks = srcObject.getTracks();
       tracks.forEach(track => {
         track.stop();
         console.log('Video track stopped:', track.kind, track.label);
@@ -112,6 +114,8 @@ const QRScanner = ({ onScan, onClose }) => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
+    if (!context) return;
+
     // Check if video is ready
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
       canvas.width = video.videoWidth;
@@ -144,7 +148,7 @@ const QRScanner = ({ onScan, onClose }) => {
   useEffect(() => {
     if (isScanning) {
       // Use requestAnimationFrame for smoother scanning
-      let animationFrame;
+      let animationFrame: number;
       const scan = () => {
         captureFrame();
         animationFrame = requestAnimationFrame(scan);
@@ -238,3 +242,4 @@ const QRScanner = ({ onScan, onClose }) => {
 };
 
 export default QRScanner;
+

@@ -7,15 +7,16 @@ import { QrCode, Search, CheckCircle, XCircle, Camera, Ban } from 'lucide-react'
 import QRScanner from './QRScanner';
 import LogoutModal from './LogoutModal';
 import DeactivateModal from './DeactivateModal';
+import type { PromoCodeStatusResponse } from '../types';
 
-const PromoChecker = () => {
-  const [promoCode, setPromoCode] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-  const [showScanner, setShowScanner] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [showDeactivateModal, setShowDeactivateModal] = useState(false);
-  const [deactivateLoading, setDeactivateLoading] = useState(false);
+const PromoChecker: React.FC = () => {
+  const [promoCode, setPromoCode] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [result, setResult] = useState<PromoCodeStatusResponse | null>(null);
+  const [showScanner, setShowScanner] = useState<boolean>(false);
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
+  const [showDeactivateModal, setShowDeactivateModal] = useState<boolean>(false);
+  const [deactivateLoading, setDeactivateLoading] = useState<boolean>(false);
   const { user, logout } = useAuth();
 
   const handleLogoutClick = () => {
@@ -46,7 +47,7 @@ const PromoChecker = () => {
       const response = await promoAPI.checkStatus(promoCode.trim());
       setResult(response.data);
       toast.success('Promo code status retrieved successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Check promo code error:', error);
       toast.error(error.response?.data?.error || 'Failed to check promo code');
       setResult(null);
@@ -55,7 +56,7 @@ const PromoChecker = () => {
     }
   };
 
-  const handleScanResult = async (scannedCode) => {
+  const handleScanResult = async (scannedCode: string) => {
     setPromoCode(scannedCode);
     setShowScanner(false);
     
@@ -74,7 +75,7 @@ const PromoChecker = () => {
       const response = await promoAPI.checkStatus(scannedCode.trim());
       setResult(response.data);
       toast.success('Promo code status retrieved successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Check promo code error:', error);
       toast.error(error.response?.data?.error || 'Failed to check promo code');
       setResult(null);
@@ -121,7 +122,7 @@ const PromoChecker = () => {
       }
       
       setShowDeactivateModal(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Deactivate promo code error:', error);
       toast.error(error.response?.data?.error || 'Ошибка при деактивации промо-кода');
     } finally {
@@ -335,3 +336,4 @@ const PromoChecker = () => {
 };
 
 export default PromoChecker;
+

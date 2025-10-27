@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { LogOut, X } from 'lucide-react';
+import type { LogoutModalProps } from '../types';
 
-const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
+const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onConfirm }) => {
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
@@ -80,3 +81,4 @@ const LogoutModal = ({ isOpen, onClose, onConfirm }) => {
 };
 
 export default LogoutModal;
+
